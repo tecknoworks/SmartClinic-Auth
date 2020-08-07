@@ -36,7 +36,7 @@ app.use(cookieParser());
 app.use(cors());
 
 // set routes
-app.use('/', mainRouter);
+app.use('/auth', mainRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
