@@ -1,4 +1,6 @@
 const UserRepository = require('../repositories/UserRepository');
+const userRepository = require('../repositories/UserRepository');
+
 
 let get = async (req, res) => {
     let users = await UserRepository.get();
@@ -37,4 +39,28 @@ let update = async (req,res) => {
     res.json(newUser);
 }
 
-module.exports = { get, getById, post, remove, update };
+let findUser = async (req,res) => {
+    let username = req.params.username;
+    let user = await UserRepository.findByUsername(username);
+
+    res.json(user);
+}
+
+let authenticate = async (req, res, next) => {
+    let data = { ...req.body };
+    await userRepository.authenticate(data)
+            .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
+            .catch(err => next(err));
+}
+
+let register = async (req, res, next) => {
+    let data = { ...req.body };
+    await userRepository.create(data)
+            .then(user => res.json(user))
+            .catch(err => next(err));
+}
+
+
+
+
+module.exports = { get, getById, post, remove, update, authenticate, findUser, register };

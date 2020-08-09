@@ -26,6 +26,8 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 
+//app.use(jwt());
+
 
 // set file upload
 app.use(fileUpload({
@@ -34,6 +36,7 @@ app.use(fileUpload({
 
 app.use(cookieParser());
 app.use(cors());
+
 
 // set routes
 app.use('/auth', mainRouter);
