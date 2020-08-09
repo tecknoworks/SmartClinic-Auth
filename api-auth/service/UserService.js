@@ -14,16 +14,6 @@ let getById = async (req, res) => {
     res.json(user);
 }
 
-
-let post = async (req, res) => {
-    let data = { ...req.body };
-
-    //ar fi necesar ceva validare
-
-    let user = await UserRepository.create(data);
-    res.json(user);
-}
-
 let remove = async (req, res) => {
     let id = req.params.id;
     let user = await UserRepository.remove(id);
@@ -63,4 +53,4 @@ let register = async (req, res, next) => {
 
 
 
-module.exports = { get, getById, post, remove, update, authenticate, findUser, register };
+module.exports = { get, getById, remove, update, authenticate, findUser, register };
