@@ -23,10 +23,22 @@ const userSchema = new mongoose.Schema(
             require: true
         },
 
+        confirmed: {
+            type: Boolean,
+            defaultValue: false,
+        },
+
         phone: {
             type: String,
             require : true
         },
+
+        email:{
+            type: String,
+            require: true,
+            unique: true
+        },
+
 
         role: {
             type: role

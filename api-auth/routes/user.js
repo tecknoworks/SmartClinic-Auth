@@ -1,11 +1,11 @@
 var express = require("express");
 var router = express.Router();
-
 const UserService = require('../service/UserService');
 
 router.get("/", UserService.get);
 router.get("/:id", UserService.getById);
 router.post("/register", UserService.register);
+router.get('/confirmation/:token',UserService.confirmation);
 
 router.delete("/:id", UserService.remove);
 router.put("/:id", UserService.update);

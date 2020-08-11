@@ -1,5 +1,4 @@
 require('dotenv').config();
-
 var createError = require('http-errors');
 var express = require('express');
 var cors = require('cors');
@@ -7,7 +6,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var fileUpload = require('express-fileupload');
-const mongoose = require('mongoose');
+
 
 var mainRouter = require('./routes');
 
@@ -25,8 +24,6 @@ app.use(express.urlencoded({
   extended: false
 }));
 app.use(express.json());
-
-//app.use(jwt());
 
 
 // set file upload
