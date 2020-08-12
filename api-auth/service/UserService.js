@@ -53,12 +53,9 @@ let register = async (req, res, next) => {
     await UserRepository.create(data)
             .then(user =>{
                     var data1 = {user: user.id};
-                    if(user.role === "PATIENT") patientRepository.create(data1)
-                                                        .then(patient=>res.json(patient))
-                                                        .catch(err => next(err));
-                    if(user.role === "DOCTOR") doctorRepository.create(data1)
-                                                        .then(doctor => res.json(doctor))
-                                                        .catch(err => next(err));
+                    if(user.role === "PATIENT") patientRepository.create(data1);
+                    if(user.role === "DOCTOR") doctorRepository.create(data1);
+                    res.json(user);
             })
             .catch(err => next(err));
 }
