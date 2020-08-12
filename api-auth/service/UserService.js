@@ -1,7 +1,11 @@
 const UserRepository = require('../repositories/UserRepository');
-const userRepository = require('../repositories/UserRepository');
+const PatientyRepository = require('../repositories/PatientRepository');
+const DoctorRepository = require('../repositories/DoctorRepository');
 const jwt = require('jsonwebtoken');
 const transport = require("../utils/transporter");
+const patientRepository = require('../repositories/PatientRepository');
+const doctorRepository = require('../repositories/DoctorRepository');
+const { doctor } = require('../models/RoleEnum');
 
 let get = async (req, res) => {
     let users = await UserRepository.get();
@@ -46,8 +50,16 @@ let authenticate = async (req, res, next) => {
 
 let register = async (req, res, next) => {
     let data = { ...req.body };
-    await userRepository.create(data)
-            .then(user => res.json(user))
+    await UserRepository.create(data)
+            .then(user =>{
+                    var data1 = {user: user.id};
+                    if(user.role === "PATIENT") patientRepository.create(data1)
+                                                        .then(patient=>res.json(patient))
+                                                        .catch(err => next(err));
+                    if(user.role === "DOCTOR") doctorRepository.create(data1)
+                                                        .then(doctor => res.json(doctor))
+                                                        .catch(err => next(err));
+            })
             .catch(err => next(err));
 }
 
@@ -60,7 +72,7 @@ let confirmaEmail = async (req, res) => {
         }else
             try{
                 const id = userVerif.user;
-                const user =await userRepository.update( id, { confirmed: true });  
+                const user =await UserRepository.update( id, { confirmed: true });  
             }catch(e){
                 console.log('error');
             }
@@ -89,7 +101,7 @@ let confirmPassord = async (req, res) => {
             try{
                 const id = userVerif.user;
                 const password = userVerif.pass;
-                const user = await userRepository.update( id, { password: password }); 
+                const user = await UserRepository.update( id, { password: password }); 
             }catch(e){
                 console.log('error');
             }

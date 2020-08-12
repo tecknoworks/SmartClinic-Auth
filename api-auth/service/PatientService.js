@@ -50,10 +50,18 @@ let remove = async (req, res) => {
 
 let update = async (req,res) => {
     let id = req.params.id;
-    let data = {...req.body };
+    
+    let patient = await PatientRepository.findById(id);
+    if(!patient) throw new Error("Patient not found")
 
-    let newPatient = await PatientRepository.update(id,data);
-    res.json(newPatient);
+    let data = {...req.body };
+    if(!data.id) data.id = id;
+    if(!data.medical_history) data.medical_history = patient.medical_history;
+    if(!data.information) data.information = patient.information;
+    if(!data.user) data.user = patient.user;
+
+    await PatientRepository.update(id,data);
+    res.json(await PatientRepository.findById(id));
 }
 
 module.exports = { get, getById, getByUserId, post, remove, update };

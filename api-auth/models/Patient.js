@@ -17,10 +17,11 @@ const patientSchema = new mongoose.Schema({
     }
 })
 
-patientSchema.pre('findOneAndRemove', function(next){
+patientSchema.pre('findByIdAndRemove', function(next){
     User.deleteOne( {user: this._conditions._id }).exec();
     next();
 });
 
+mongoose.set('useFindAndModify', false);
 const Patient = mongoose.model('Patient', patientSchema);
 module.exports = Patient;

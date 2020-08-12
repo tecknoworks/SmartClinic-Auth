@@ -45,8 +45,6 @@ const userSchema = new mongoose.Schema(
         }
     }
 );
-
-
-
+mongoose.set('useFindAndModify', false);
 const User = mongoose.model('User',userSchema);
 module.exports = User;

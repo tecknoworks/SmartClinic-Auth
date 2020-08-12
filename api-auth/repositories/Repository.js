@@ -21,7 +21,7 @@ class Repository {
     }
 
     async update(id,obj){
-        return await this.model.findByIdAndUpdate(id,obj);
+        return await this.model.findByIdAndUpdate(id,obj).exec();
     }
 }
 
