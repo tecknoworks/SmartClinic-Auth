@@ -43,7 +43,6 @@ const userSchema = new mongoose.Schema(
         role: {
             type: role
         }
-
     }
 );
 

@@ -51,7 +51,7 @@ class UserRepository extends Repository {
             to: uu.email,
             from:"oanaplopeanu11@gmail.com",
             subject: 'Confirm Email',
-            html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+            html: `Please click this link to confirm your email: <a href="${url}">${url}</a>`,
         }, function (err,res) {
             if (err) {
                 console.log(err);
@@ -79,6 +79,40 @@ class UserRepository extends Repository {
     
         const uu = await user.save();
         return uu;
+    }
+
+    async changePassord(param){
+        const user = await this.model.findOne({email : param.email});
+        //console.log(param.email);
+        if(!user) throw "User not found!";
+
+        const pass =  Math.random().toString(36).substring(7);
+        
+        const passToken = jwt.sign(
+            {user: user.id, pass}, transport.EMAIL_SECRET, {expiresIn: '1d'}
+        );
+        const url = `http://localhost:9000/auth/user/confirmPassword/${passToken}`;
+    
+        await transport.sendgrid.send({
+            to: user.email,
+            from:"oanaplopeanu11@gmail.com",
+            subject: 'Change password',
+            html: `By accessing this link your account password will be:   <b>${pass}</b> 
+                    <div>
+                    Access the link and log in: <a href="${url}">${url}</a>
+                    </div>
+                    <div>
+                    You cand always change the password inside your profile
+                    </div>`,
+        }, function (err,res) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Success.");
+            }
+        });
+
+        return user;
     }
 
 

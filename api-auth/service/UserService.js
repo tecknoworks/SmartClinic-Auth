@@ -39,7 +39,6 @@ let findUser = async (req,res) => {
 
 let authenticate = async (req, res, next) => {
     let data = { ...req.body };
-    console.log("incearca si el");
     await userRepository.authenticate(data)
             .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
             .catch(err => next(err));
@@ -52,7 +51,7 @@ let register = async (req, res, next) => {
             .catch(err => next(err));
 }
 
-let confirmation = async (req, res) => {
+let confirmaEmail = async (req, res) => {
     await jwt.verify(req.params.token,transport.EMAIL_SECRET,
         async function(err,userVerif){
         if(err){
@@ -75,7 +74,31 @@ let confirmation = async (req, res) => {
                                                             //acum logarea in aplicatie
 }    
 
+let forgotPassword = async (req, res) =>{
+    let data = { ...req.body };
+    let user = await UserRepository.changePassord(data);
+    res.json(user);
+}
+
+let confirmPassord = async (req, res) => {
+    await jwt.verify(req.params.token,transport.EMAIL_SECRET,
+        async function(err,userVerif){
+        if(err){
+            console.log(err); // Token has expired, has been tampered with, etc
+        }else
+            try{
+                const id = userVerif.user;
+                const password = userVerif.pass;
+                const user = await userRepository.update( id, { password: password }); 
+            }catch(e){
+                console.log('error');
+            }
+        });
+    
+    return res.redirect('https://ro.pinterest.com/pin/54958057940923535/')
+    //return res.redirect('http:/localhost:9000/auth/user/login'); 
+} 
 
 
 
-module.exports = { get, getById, remove, update, authenticate, findUser, register, confirmation };
+module.exports = { get, getById, remove, update, authenticate, findUser, register, confirmaEmail, forgotPassword, confirmPassord };
