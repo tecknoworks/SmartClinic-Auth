@@ -19,10 +19,6 @@ class Repository {
     async remove(id) {
         return await this.model.findByIdAndRemove(id).exec();
     }
-
-    async update(id,obj){
-        return await this.model.findByIdAndUpdate(id,obj).exec();
-    }
 }
 
 module.exports = Repository;

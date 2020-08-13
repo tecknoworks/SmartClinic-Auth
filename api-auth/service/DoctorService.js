@@ -33,7 +33,7 @@ let post = async (req, res) => {
     }
 
     let doctor = await DoctorRepository.create(data);
-    res.json(post);
+    res.json(doctor);
 }
 
 let remove = async (req, res) => {
@@ -45,17 +45,10 @@ let remove = async (req, res) => {
 
 let update = async (req,res) => {
     let id = req.params.id;
-    let doctor = await DoctorRepository.findById(id);
-    if(!doctor) throw new Error("Doctor not found");
-
     let data = {...req.body };
-    if(!data.id) data.id = id;
-    if(!data.speciality) data.speciality = doctor.speciality;
-    if(!data.room) data.room = doctor.room;
-    if(!data.user) data.user = doctor.user;
 
-    await DoctorRepository.update(id,data);
-    res.json( await DoctorRepository.findById(id));
+    let newDoctor = await DoctorRepository.update(id,data);
+    res.json(newDoctor)
 }
 
 module.exports = { get, getById, getByUserId, post, remove, update };

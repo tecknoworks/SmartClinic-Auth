@@ -70,13 +70,20 @@ class UserRepository extends Repository {
         if (user.username !== userParam.username && await User.findOne({ username: userParam.username })) {
             throw 'Username "' + userParam.username + '" is already taken';
         }
+
+        if (user.email !== userParam.email && await User.findOne({ email: userParam.email })) {
+            throw 'Email "' + userParam.email + '" is already taken';
+        }
         // hash password if it was entered
         if (userParam.password) {
             userParam.hash = bcrypt.hashSync(userParam.password, 10);
         }
         // copy userParam properties to user
         Object.assign(user, userParam);
-    
+
+        // if email updated, then we have to check it first
+        //if(userParam.email != null) user.confirmed = false;
+
         const uu = await user.save();
         return uu;
     }

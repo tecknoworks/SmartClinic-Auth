@@ -1,6 +1,5 @@
 var Patient = require('../models/Patient');
 var Repository = require('./Repository');
-const { patient } = require('../models/RoleEnum');
 
 class PatientRepository extends Repository {
     constructor(model) {
@@ -9,6 +8,19 @@ class PatientRepository extends Repository {
 
     async findByUser(userId) {
         return await this.model.find({ user: userId }).exec();
+    }
+
+    async update(id,patientParams){
+        const patient = await Patient.findById(id);
+
+        //validate
+        if(!patient) throw new Error("Doctor not found");
+
+        // copy patientParams properties to user
+        Object.assign(patient, patientParams);
+
+        const pat = await patient.save();
+        return pat;
     }
 }
 

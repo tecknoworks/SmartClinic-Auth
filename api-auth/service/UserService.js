@@ -31,7 +31,7 @@ let update = async (req,res) => {
     let data = {...req.body };
 
     let newUser = await UserRepository.update(id,data);
-   return newUser;
+   res.json(newUser);
 }
 
 let findUser = async (req,res) => {
@@ -43,7 +43,7 @@ let findUser = async (req,res) => {
 
 let authenticate = async (req, res, next) => {
     let data = { ...req.body };
-    await userRepository.authenticate(data)
+    await UserRepository.authenticate(data)
             .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
             .catch(err => next(err));
 }
