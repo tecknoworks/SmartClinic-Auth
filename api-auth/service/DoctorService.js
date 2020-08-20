@@ -13,6 +13,17 @@ let getById = async (req, res) => {
     res.json(doctor);
 }
 
+let getBySpeciality = async(req, res, next) => {
+   
+    await DoctorRepository.getBySpeciality(req.body.speciality)
+    .then(
+        doctors => {
+            res.json(doctors)
+        }
+    )
+    .catch(err => next(err))
+}
+
 let getByUserId = async (req, res) => {
     let id = req.params.id;
     let patient = await DoctorRepository.findByUser(id);
@@ -51,4 +62,4 @@ let update = async (req,res) => {
     res.json(newDoctor)
 }
 
-module.exports = { get, getById, getByUserId, post, remove, update };
+module.exports = { get, getById, getByUserId, post, remove, update, getBySpeciality };
