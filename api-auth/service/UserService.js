@@ -81,13 +81,8 @@ let confirmaEmail = async (req, res) => {
                 }
         });
 
-    return res.redirect('https://ro.pinterest.com/pin/694469205030540262/')
-    //return res.redirect('http:/localhost:9000/auth/user/login'); //pentru ca nu am o pagina implementata pe
-    // frontend pentru login, nu se va deschide acest 
-    //link, insa pentru testare, am lasat link-ul de mai
-    // sus ca se redirectioneaza pagina si este posibila
-    //acum logarea in aplicatie
-}
+    return res.writeHead(301,{Location: 'http://locahost8080/auth/login'});
+}    
 
 let forgotPassword = async (req, res) => {
     let data = { ...req.body };
@@ -109,10 +104,10 @@ let confirmPassord = async (req, res) => {
                     console.log('error');
                 }
         });
-
-    return res.redirect('https://ro.pinterest.com/pin/54958057940923535/')
-    //return res.redirect('http:/localhost:9000/auth/user/login'); 
-}
+    
+    //return res.redirect('https://ro.pinterest.com/pin/54958057940923535/')
+    return res.writeHead(301,{Location: 'http://locahost8080/auth/login'});
+} 
 
 
 
