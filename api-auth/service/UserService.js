@@ -79,8 +79,8 @@ let confirmaEmail = async (req, res) => {
                     console.log('error');
                 }
         });
-        return res.writeHead(301,{Location: 'http://localhost:8080/auth/login'});
-        //return res.redirect('http://localhost:8080/login')
+        return res.writeHead(301,{Location: 'http://localhost:8080/login'});
+        //return res.redirect('http://localhost:8080/register')
 }    
 
 let forgotPassword = async (req, res) => {
@@ -104,8 +104,8 @@ let confirmPassord = async (req, res) => {
                 }
         });
     
-    return res.writeHead(301,{Location: 'http://localhost:8080/auth/login'});
-    //return res.redirect('http://localhost:8080/login')
+    return res.writeHead(301,{Location: 'http://localhost:8080/login'});
+    //return res.redirect('http://localhost:8080/register')
 } 
 
 
