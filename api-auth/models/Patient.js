@@ -15,12 +15,15 @@ const patientSchema = new mongoose.Schema({
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    addresses:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Address'
+    }]
 })
 
-patientSchema.pre('findByIdAndRemove', function(next){
-    User.deleteOne( {user: this._conditions._id }).exec();
-    Address.deleteOne( {patient:this._conditions._id}).exec();
+patientSchema.pre('findOneAndRemove', function(next){
+    Address.deleteMany( {patient:this._conditions._id}).exec();
     next();
 });
 

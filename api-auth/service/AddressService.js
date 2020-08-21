@@ -20,20 +20,6 @@ let getByPatientId = async (req, res) => {
     res.json(address);
 }
 
-let post = async (req, res) => {
-    let data = { ...req.body };
-    let patient = await PatientRepository.findById(data.patient);
-
-    if (patient == null) {
-        res.status(404).json({
-            message: 'Patient not found!'
-        });
-        return;
-    }
-
-    let address = await AddressRepository.create(data);
-    res.json(address);
-}
 
 let remove = async (req, res) => {
     let id = req.params.id;
@@ -50,4 +36,4 @@ let update = async (req,res) => {
    res.json(newAddress);
 }
 
-module.exports = { get, getById, getByPatientId, post, remove, update };
+module.exports = { get, getById, getByPatientId, remove, update };

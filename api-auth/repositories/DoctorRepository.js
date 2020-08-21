@@ -12,10 +12,9 @@ class DoctorRepository extends Repository {
 
     async update(id, doctorParam) {
         const doctor = await Doctor.findById(id);
-        //validate
+
         if (!doctor) throw new Error("Doctor not found");
 
-        // copy doctorParam properties to user
         Object.assign(doctor, doctorParam);
 
         const doc = await doctor.save();

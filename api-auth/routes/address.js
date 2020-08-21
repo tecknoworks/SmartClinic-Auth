@@ -7,7 +7,6 @@ router.get("/", AddressService.get);
 router.get("/:id", AddressService.getById);
 router.get("/patient/:id", AddressService.getByPatientId);
 
-router.post("/post", AddressService.post);
 router.delete("/:id", AddressService.remove);
 router.put("/:id", AddressService.update);
 

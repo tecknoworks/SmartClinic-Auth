@@ -14,7 +14,7 @@ class AddressRepository extends Repository {
         const address = await Address.findById(id);
 
         //validate
-        if(!address) throw new Error("Doctor not found");
+        if(!address) throw new Error("Address not found");
 
         // copy addressParam properties to user
         Object.assign(address, addressParam);

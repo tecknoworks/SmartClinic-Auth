@@ -46,7 +46,7 @@ class UserRepository extends Repository {
         const emailToken = jwt.sign(
           {user: uu.id}, transport.EMAIL_SECRET, {expiresIn: '1d'}
         );
-        const url = `http://localhost:9000/auth/user/confirmation/${emailToken}`;
+        const url = `http://localhost:8080/auth/user/confirmation/${emailToken}`;
         
         await transport.sendgrid.send({
             to: uu.email,
@@ -83,7 +83,7 @@ class UserRepository extends Repository {
         Object.assign(user, userParam);
 
         // if email updated, then we have to check it first
-        //if(userParam.email != null) user.confirmed = false;
+        if(userParam.email != null) user.confirmed = false;
 
         const uu = await user.save();
         return uu;
@@ -99,7 +99,7 @@ class UserRepository extends Repository {
         const passToken = jwt.sign(
             {user: user.id, pass}, transport.EMAIL_SECRET, {expiresIn: '1d'}
         );
-        const url = `http://localhost:9000/auth/user/confirmPassword/${passToken}`;
+        const url = `http://localhost:8080/auth/user/confirmPassword/${passToken}`;
     
         await transport.sendgrid.send({
             to: user.email,
@@ -122,7 +122,6 @@ class UserRepository extends Repository {
 
         return user;
     }
-
 
 }
 

@@ -1,6 +1,6 @@
-const { base64_encode } = require('../utils');
 const PatientRepository = require("../repositories/PatientRepository");
-const UserRepository = require ("../repositories/UserRepository")
+const UserRepository = require ("../repositories/UserRepository");
+const AddressRepository = require("../repositories/AdressRepository");
 
 let get = async (req, res) => {
     let patients = await PatientRepository.get();
@@ -30,7 +30,6 @@ let post = async (req, res, next) => {
             res.status(404).json({
                 message: 'User not found!'
             });
-    
             return;
         }
 
@@ -56,4 +55,29 @@ let update = async (req,res) => {
    res.json(newPatient);
 }
 
-module.exports = { get, getById, getByUserId, post, remove, update };
+let addAddress = async (req, res) => {
+    let id = req.params.id;
+    let data = { ...req.body };
+
+    let address = await AddressRepository.create(data);
+    let patient = await PatientRepository.addAdress(id, address);
+
+    res.json(patient);
+}
+
+let deleteAddress = async(req,res) =>{
+    const patientId = req.params.patientId;
+    const addressId = req.params.addressId;
+
+    let patient = await PatientRepository.findById(patientId);
+    if(!patient) throw new Error ("Patient not found!");
+
+    let address = await AddressRepository.findById(addressId);
+    if(!address) throw new Error("Address not found!");
+
+    let newAddress =await  PatientRepository.removeAddress(patientId, addressId);
+    res.json(newAddress);
+}
+
+
+module.exports = { get, getById, getByUserId, post, remove, update, addAddress, deleteAddress };

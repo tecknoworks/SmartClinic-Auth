@@ -2,7 +2,6 @@ var express = require("express");
 var router = express.Router();
 
 const DoctorSetvice = require('../service/DoctorService');
-const Doctor = require("../models/Doctor");
 
 router.get("/", DoctorSetvice.get);
 router.get("/:id", DoctorSetvice.getById);

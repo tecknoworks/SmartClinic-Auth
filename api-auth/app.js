@@ -14,7 +14,6 @@ var app = express();
 
 // db setup
 const { connectDb } = require('./database');
-
 connectDb();
 
 app.use(logger('dev'));
