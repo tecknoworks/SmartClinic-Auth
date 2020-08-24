@@ -23,7 +23,6 @@ class UserRepository extends Repository {
     }
 
     async create(userParam) {
-        console.log(userParam)
         // validate
         if (await this.model.findOne({ username: userParam.username })) {
             throw 'Username "' + userParam.username + '" is already taken';

@@ -1,6 +1,4 @@
 const UserRepository = require('../repositories/UserRepository');
-const PatientyRepository = require('../repositories/PatientRepository');
-const DoctorRepository = require('../repositories/DoctorRepository');
 const jwt = require('jsonwebtoken');
 const transport = require("../utils/transporter");
 const patientRepository = require('../repositories/PatientRepository');
@@ -44,8 +42,20 @@ let findUser = async (req, res) => {
 let authenticate = async (req, res, next) => {
     let data = { ...req.body };
     await UserRepository.authenticate(data)
-        .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
+        .then(async user => {
+            if(user){
+                let patient = await patientRepository.findByUser(user._id);
+                let doctor = await doctorRepository.findByUser(user._id);
+
+                res.json({user:user, doctor: doctor, patient: patient});
+            }else{
+                res.status(400).json({ message: 'Username or password is incorrect' })
+            }
+        }
+        )
         .catch(err => next(err));
+
+    
 }
 
 let register = async (req, res, next) => {
@@ -105,7 +115,7 @@ let confirmPassord = async (req, res) => {
         });
     
     return res.writeHead(301,{Location: 'http://localhost:8080/login'});
-    //return res.redirect('http://localhost:8080/register')
+    //return res.redirect('http://localhost:8080/login')
 } 
 
 
