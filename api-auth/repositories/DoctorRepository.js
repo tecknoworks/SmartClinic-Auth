@@ -1,4 +1,5 @@
 var Doctor = require('../models/Doctor');
+var User = require('../models/User');
 var Repository = require('./Repository');
 
 class DoctorRepository extends Repository {
@@ -30,6 +31,24 @@ class DoctorRepository extends Repository {
         })
         return doctors
     }
+
+
+    async findDoctor(){
+        let data = await this.model.aggregate([
+            {
+                $lookup:
+                {
+                    from: 'users',
+                    localField: 'user',
+                    foreignField:  '_id',
+                    as: 'userDetails'
+                }
+            }
+        ])
+ 
+        return data
+    }
+
 }
 
 var doctorRepository = new DoctorRepository(Doctor);

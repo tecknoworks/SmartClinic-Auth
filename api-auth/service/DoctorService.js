@@ -2,9 +2,10 @@ const UserRepository = require('../repositories/UserRepository');
 const DoctorRepository = require('../repositories/DoctorRepository');
 
 let get = async (req, res) => {
-    let doctor = await DoctorRepository.get();
-    res.json(doctor);
+    let docs = await DoctorRepository.findDoctor();
+    res.json(docs);
 }
+
 
 let getById = async (req, res) => {
     let id = req.params.id;
