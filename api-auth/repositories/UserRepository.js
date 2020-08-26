@@ -45,7 +45,7 @@ class UserRepository extends Repository {
         const emailToken = jwt.sign(
           {user: uu.id}, transport.EMAIL_SECRET, {expiresIn: '1d'}
         );
-        const url = `http://localhost:8080/auth/user/confirmation/${emailToken}`;
+        const url = `http://localhost:9000/auth/user/confirmation/${emailToken}`;
         
         await transport.sendgrid.send({
             to: uu.email,
@@ -98,7 +98,7 @@ class UserRepository extends Repository {
         const passToken = jwt.sign(
             {user: user.id, pass}, transport.EMAIL_SECRET, {expiresIn: '1d'}
         );
-        const url = `http://localhost:8080/auth/user/confirmPassword/${passToken}`;
+        const url = `http://localhost:9000/auth/user/confirmPassword/${passToken}`;
     
         await transport.sendgrid.send({
             to: user.email,
