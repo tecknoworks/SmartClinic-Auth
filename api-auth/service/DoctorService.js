@@ -2,7 +2,7 @@ const UserRepository = require('../repositories/UserRepository');
 const DoctorRepository = require('../repositories/DoctorRepository');
 
 let get = async (req, res) => {
-    let doctor = await DoctorRepository.get();
+    let doctor = await DoctorRepository.findDoctor();
     res.json(doctor);
 }
 

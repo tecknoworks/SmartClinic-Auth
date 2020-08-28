@@ -5,11 +5,11 @@ var User = require('./User');
 const doctorSchema = new mongoose.Schema({
     speciality: {
         type: String,
-        reuire: true
+        reuqire: true
     },
     room:{
         type: String,
-        reuire: false
+        reuqire: false
     },
     user: {
         type: mongoose.Schema.Types.ObjectId, 

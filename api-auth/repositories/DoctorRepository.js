@@ -1,5 +1,6 @@
 var Doctor = require('../models/Doctor');
 var Repository = require('./Repository');
+const axios = require('axios')
 
 class DoctorRepository extends Repository {
     constructor(model) {
@@ -8,6 +9,45 @@ class DoctorRepository extends Repository {
 
     async findByUser(userId) {
         return await this.model.find({ user: userId }).exec();
+    }
+
+    async functionWithPromise(item) { //a function that returns a promise
+        return Promise.resolve('ok')
+    }
+
+    async getRating(doctorId) {
+        let rating = await axios.get(`http://localhost:9001/review/getAverageRating/${doctorId}`)
+
+        return Math.round((rating.data + Number.EPSILON) * 100) / 100
+    }
+
+    async getData(data) {
+        return Promise.all(data.map(doctor => this.getRating(doctor._id)))
+    }
+
+    async findDoctor() {
+        let data = await this.model.aggregate([
+            {
+                $lookup:
+                {
+                    from: 'users',
+                    localField: 'user',
+                    foreignField: '_id',
+                    as: 'userDetails'
+                }
+            }
+        ])
+
+        let ratings = await this.getData(data)
+        let i = 0
+
+        data.forEach(doctor => {
+            
+            doctor.rating = ratings[i]
+            i++
+        })
+        console.log(data)
+        return data
     }
 
     async update(id, doctorParam) {
