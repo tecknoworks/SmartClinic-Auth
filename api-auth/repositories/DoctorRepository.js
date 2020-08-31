@@ -1,4 +1,5 @@
 var Doctor = require('../models/Doctor');
+var User = require('../models/User');
 var Repository = require('./Repository');
 const axios = require('axios')
 
@@ -37,7 +38,6 @@ class DoctorRepository extends Repository {
                 }
             }
         ])
-
         let ratings = await this.getData(data)
         let i = 0
 

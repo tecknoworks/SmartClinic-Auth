@@ -89,8 +89,8 @@ let confirmaEmail = async (req, res) => {
                     console.log('error');
                 }
         });
-        return res.writeHead(301,{Location: 'http://localhost:8080/login'});
-        //return res.redirect('http://localhost:8080/register')
+        //return res.writeHead(301,{Location: 'http://localhost:8080/login'});
+        return res.redirect('https://ro.pinterest.com/pin/32721534782790348/')
 }    
 
 let forgotPassword = async (req, res) => {
@@ -114,8 +114,8 @@ let confirmPassord = async (req, res) => {
                 }
         });
     
-    return res.writeHead(301,{Location: 'http://localhost:8080/login'});
-    //return res.redirect('http://localhost:8080/login')
+    //return res.writeHead(301,{Location: 'http://localhost:8080/login'});
+    return res.redirect('https://ro.pinterest.com/pin/32721534782790348/')
 } 
 
 
